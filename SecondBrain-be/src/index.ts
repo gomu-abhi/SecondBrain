@@ -196,10 +196,14 @@ app.post('/api/v1/brain/share', auth, async function(req : AuthRequest, res : Re
             })
         } catch (error: any) {
             if (error.code === 11000) { // MongoDB duplicate key error
-                res.status(403).json({
-                message: "Link already exists"
-              });
-              return;
+                const link = await LinkModel.findOne({
+                    userId:req.id
+                })
+                res.status(200).json({
+                    message : "Updated sharable link",
+                    hash : link?.hash
+                })
+                return;
             }
             // Server error
             res.status(500).json({
@@ -221,7 +225,7 @@ app.post('/api/v1/brain/share', auth, async function(req : AuthRequest, res : Re
 
 app.get('/api/v1/brain/:shareLink', (req, res) => {
     const shareLink = req.params.shareLink;
-    console.log(shareLink);
+    // console.log(shareLink);
     LinkModel.findOne({
         hash: shareLink
     }).then((link) => {
@@ -241,8 +245,6 @@ app.get('/api/v1/brain/:shareLink', (req, res) => {
         })
     })
 })
-
-const port = process.env.PORT || 3000;
 
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');

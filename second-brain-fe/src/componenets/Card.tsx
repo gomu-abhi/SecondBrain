@@ -12,6 +12,7 @@ interface CardProps {
     modalOpen : boolean;
     id : any;
     refresh : any;
+    trashDisabled? : boolean;
 }
 
 const IconVariant = {
@@ -48,9 +49,9 @@ export const Card = (props : CardProps) => {
                         <ShareIcon className="size-6 text-gray-500 hover:bg-gray-100 transition-all p-1 rounded"/>
                     </a>
                 </div> 
-                <TrashIcon onClick={() => {
+                {!props.trashDisabled && <TrashIcon onClick={() => {
                     DeleteContent()
-                }} className="cursor-pointer size-6 text-gray-500 hover:text-black hover:bg-red-500 transition-all p-1 rounded"/>
+                }} className="cursor-pointer size-6 text-gray-500 hover:text-black hover:bg-red-500 transition-all p-1 rounded"/>}
             </div>
         </div>
         <div className="mt-4">

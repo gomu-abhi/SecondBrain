@@ -2,15 +2,19 @@ import { DocumentTextIcon } from "@heroicons/react/24/outline"
 import { BrainIcon, InstaIcon, TweetIcon, VideoIcon } from "./Icons"
 import { SideBarItem } from "./SideBarItem"
 import { useContent } from "../hooks/useContent"
+import { useContentSecond } from "../hooks/useContentSecond"
 
 interface SideBarInterface {
     contents : any,
     setContents : any,
-    refresh : any
+    refresh : any,
+    shared? : boolean,
+    hash? : string
 }
 
 export const SideBar = (props : SideBarInterface) => {
-    const {contents, setContents, refresh} = useContent();
+    const {contents, setContents, refresh} = props.shared ? useContentSecond(props.hash || "") : useContent();
+
 
     function ReturnAll() {
         props.setContents(contents);
