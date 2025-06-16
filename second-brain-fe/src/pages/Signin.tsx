@@ -24,9 +24,12 @@ export const Signin = () => {
         const response = await axios.post(`${BACKEND_URL}/signin`, request);
         const jwt = response.data.token;
         localStorage.setItem("token", jwt);
-        navigate("/dashboard");
+        navigate("/dashboard",{
+            state: {
+                username : username
+            }
+        });
     }
-
     return <div className = "h-screen w-screen top-0 left-0 bg-gray-200 flex justify-center items-center">
         <div className = "bg-white rounded-lg border min-w-48 p-14 flex flex-col gap-4">
             <div className="flex gap-4 justify-center items-center self-center text-2xl pb-4">

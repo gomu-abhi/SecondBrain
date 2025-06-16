@@ -37,7 +37,7 @@ export const Card = (props : CardProps) => {
         props.refresh();
     }
 
-    return <div className="break-inside-avoid bg-white rounded-lg p-4 mx-2 mb-4 border border-gray-200 min-h-48 min-w-90" >
+    return <div className="break-inside-avoid bg-white rounded-lg p-4 mx-2 mb-4 border border-gray-200 min-h-48 min-w-90 max-w-94" >
         <div className="flex justify-between">
             <div className="flex items-center gap-2 font-semibold">
                 {IconVariant[props.type]}
@@ -56,7 +56,7 @@ export const Card = (props : CardProps) => {
         </div>
         <div className="mt-4">
             {props.type === "Video" && <YouTubeEmbed url = {props.link} width={325} height={200}></YouTubeEmbed>}
-            {props.type === "Tweet" && <XEmbed url={props.link} width={325} /> }
+            {props.type === "Tweet" && (<XEmbed key={props.link} url={props.link} width={325} /> )}
             {!props.modalOpen && props.type === "InstaPost" && <InstagramEmbed url={props.link} width={328}></InstagramEmbed>}
         </div>
     </div>

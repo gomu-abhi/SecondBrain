@@ -18,6 +18,14 @@ export const SecondDashboard = () => {
     }
     const [modalOpen, setModalOpen] = useState(false);
     const {contents, setContents, refresh} = useContentSecond(hash);
+    const [sortedContents, setSortedContents] = useState([]);
+    const [sortOrder, setSortOrder] = useState("oldest");
+    const handleSortChange = (e: any) => {
+        setSortOrder(e.target.value);
+    };
+    useEffect(() => {
+        sortOrder === "newest" ? setSortedContents([...contents].reverse()) : setSortedContents(contents);
+    }, [sortOrder, contents])
     useEffect(() => {
         refresh()
     }, [modalOpen])
@@ -45,8 +53,19 @@ export const SecondDashboard = () => {
                             setModalOpen(true);
                         }} startIcon={<PlusIcon className='size-4' />} />
                     </div> */}
+                    <div className="flex justify-end text-md m-4">
+                        <label className="mr-2 font-semibold text-gray-600">Sort by:</label>
+                        <select
+                            className="outline outline-gray-300 hover:outline-gray-700 hover:bg-white rounded px-2 appearance-none py-1 text-sm"
+                            value={sortOrder}
+                            onChange={handleSortChange}
+                        >
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                        </select>
+                    </div>
                     <div className='columns-1 lg:columns-2 xl:columns-3 ml-66 '>
-                        {contents.map(({type, link, title, _id})  => {
+                        {sortedContents.map(({type, link, title, _id})  => {
                             return <Card trashDisabled = {true} title = {title} type = {type} link = {link} id = {_id} modalOpen = {modalOpen} refresh = {refresh}/>
                         })}
                     </div>
